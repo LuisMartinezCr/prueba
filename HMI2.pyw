@@ -34,7 +34,7 @@ class mywindow(QtWidgets.QMainWindow):
         self.ui.refresh.clicked.connect(self.refresh_)
         
         self.ui.shutter.activated.connect(self.shutter_)
-        
+        self.ui.units.activated.connect(self.units_)
     def conectar_(self):
         namep = self.ui.port.currentText()
         try:
@@ -78,7 +78,23 @@ class mywindow(QtWidgets.QMainWindow):
             print(estadoshutter)
         except:
             self.show_popup()
-    
+
+    def units_(self):#deveriamos de  preguntar el estado del shutter o unidades aunque creo q esta de mas
+        try:
+            state_units = self.ui.units.currentText()
+            if state_units == "nm":
+                value_units = "UNITS NM" + chr(10)
+                self.ser.write(value_units.encode('ascii'))
+            elif state_units == "um":
+                value_units = "UNITS UM" + chr(10)
+                self.ser.write(value_units.encode('ascii'))
+            elif state_units == "cm-1":
+                value_units = "UNITS WN" + chr(10)
+                self.ser.write(value_units.encode('ascii'))
+            print(state_units)
+        except:
+            self.show_popup()
+
     def setwave_(self):
         try:
             comando = 'GOWAVE '+ self.ui.setwave.text() +chr(10)# NECESITA EL ESPACIO EN EL COMANDO
